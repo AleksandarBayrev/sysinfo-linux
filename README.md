@@ -2,4 +2,4 @@
 
 ## How to run
 * `npm run build`
-* `node build/sysinfo.js`
+* `node dist/sysinfo.js`
