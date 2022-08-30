@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Machine Data</title>
+    <script src="/frontend" type="text/javascript"></script>
+    <style>
+        body {
+            font-size: 22px;
+        }
+    </style>
+    <script>
+        (function () {
+            const successCallback = function (x) {
+                document.getElementById('sensor-data').innerHTML = x.join("<br />");
+                return x;
+            }
+
+            const errorCallback = function (x) {
+                document.getElementById('sensor-data').innerHTML = 'Error while fetching sensor data!';
+                return x;
+            }
+
+            window.addEventListener("load", function () {
+                getMachineData()
+                    .then(successCallback)
+                    .catch(errorCallback);
+            });
+
+            setInterval(() => {
+                getMachineData()
+                    .then(successCallback)
+                    .catch(errorCallback);
+            }, 1000);
+
+        })();
+    </script>
+</head>
+
+<body>
+    <div class="content">
+        <div class="modal">
+            <div class="modal-row" id="sensor-data"></div>
+        </div>
+    </div>
+</body>
+
+</html>
