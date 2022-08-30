@@ -12,14 +12,17 @@
     </style>
     <script>
         (function () {
-            const successCallback = function (x) {
-                document.getElementById('sensor-data').innerHTML = x.join("<br />");
+            const successCallback = function (response) {
+                console.log(response);
+                document.getElementById('sensor-data').innerHTML = Object.keys(response).map(key => {
+                    return `${key}<br />${response[key]}<br />`;
+                });
                 return x;
             }
 
-            const errorCallback = function (x) {
+            const errorCallback = function (error) {
                 document.getElementById('sensor-data').innerHTML = 'Error while fetching sensor data!';
-                return x;
+                return error;
             }
 
             window.addEventListener("load", function () {

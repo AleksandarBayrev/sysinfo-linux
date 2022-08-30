@@ -17,8 +17,10 @@ app.get('/frontend', (req, res, next) => {
 });
 
 app.get('/sensors', (req, res, next) => {
+    const hostInfo = execSync('uname -mrs').toString('utf-8');
     const sensorsResult = execSync('sensors').toString('utf-8');
-    res.send({
+    res.contentType("application/json").send({
+        hostInfo,
         sensorsResult
     });
 });
