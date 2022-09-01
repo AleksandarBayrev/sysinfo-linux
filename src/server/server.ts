@@ -4,7 +4,16 @@ import path from 'path';
 import fs from 'fs';
 import { PORT } from './config';
 
+type Sensor = {
+    sensorName: string;
+    command: string;
+}
+
 const app = express();
+
+app.use(express.json({
+    limit: "50mb"
+}));
 
 app.get('/', (req, res, next) => {
     const fileContents = fs.readFileSync(path.join(__dirname, "app.html"));
@@ -16,13 +25,17 @@ app.get('/frontend', (req, res, next) => {
     res.contentType("text/javascript").sendFile(path.join(__dirname, "frontend.js"));
 });
 
-app.get('/sensors', (req, res, next) => {
-    const hostInfo = execSync('uname -mrs').toString('utf-8').replace("\n", "<br />");
-    const sensorsResult = execSync('sensors').toString('utf-8').split(",").join("<br />");
-    res.contentType("application/json").send({
-        hostInfo,
-        sensorsResult
+app.post('/sensors', (req, res, next) => {
+    const sensors = req.body.sensors as Sensor[];
+
+    const result: {[key: string]: string} = {};
+    sensors.map(sensorData => {
+        const sensorOutput = execSync(sensorData.command).toString('utf-8').split("\n").join("<br />");
+        result[sensorData.sensorName] = sensorOutput;
+        return result[sensorData.sensorName];
     });
+
+    res.contentType("application/json").send(result);
 });
 
 app.listen(PORT, () => {

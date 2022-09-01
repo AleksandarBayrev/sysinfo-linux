@@ -31,14 +31,22 @@
                 return error;
             }
 
+            const sensors = [{
+                sensorName: "hostInfo",
+                command: "uname -mrs"
+            }, {
+                sensorName: "sensors",
+                command: "sensors"
+            }]
+
             window.addEventListener("load", function () {
-                getMachineData()
+                getMachineData(sensors)
                     .then(successCallback)
                     .catch(errorCallback);
             });
 
             setInterval(() => {
-                getMachineData()
+                getMachineData(sensors)
                     .then(successCallback)
                     .catch(errorCallback);
             }, 1000);

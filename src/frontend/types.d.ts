@@ -1,3 +1,3 @@
 declare interface Window {
-    getMachineData: () => Promise<any>
+    getMachineData: (sensors: import("./index").Sensor[]) => Promise<any>
 }
