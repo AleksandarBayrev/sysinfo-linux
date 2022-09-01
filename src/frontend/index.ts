@@ -1,11 +1,17 @@
-type SensorsResponse = {
-    sensorsResult: string;
+export type Sensor = {
+    sensorName: string;
+    command: string;
 }
+type SensorsResponse = {[command: string]: string}
 
-const getData = () => {
-    return fetch("/sensors").then(x => x.json()).then((x: SensorsResponse) => {
-        return x.sensorsResult.split("\n").map(x => x);
-    });
+const getData = (sensors: Sensor[]) => {
+    return fetch("/sensors", {
+        body: JSON.stringify({sensors}),
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(x => x.json()) as Promise<SensorsResponse>;
 }
 
 window.getMachineData = getData;

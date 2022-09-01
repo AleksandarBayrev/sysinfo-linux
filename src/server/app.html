@@ -12,24 +12,41 @@
     </style>
     <script>
         (function () {
-            const successCallback = function (x) {
-                document.getElementById('sensor-data').innerHTML = x.join("<br />");
-                return x;
+            const successCallback = function (response) {
+                console.log(response);
+                var result = "";
+                Object.keys(response).map(key => {
+                    if (Array.isArray(response[key])) {
+                        result += `${key}<br />${response[key].join("<br />")}`;
+                    } else {
+                        result += `${key}<br />${response[key]}<br />`;
+                    }
+                });
+                document.getElementById('sensor-data').innerHTML = result; 
+                return response;
             }
 
-            const errorCallback = function (x) {
+            const errorCallback = function (error) {
                 document.getElementById('sensor-data').innerHTML = 'Error while fetching sensor data!';
-                return x;
+                return error;
             }
+
+            const sensors = [{
+                sensorName: "hostInfo",
+                command: "uname -mrs"
+            }, {
+                sensorName: "sensors",
+                command: "sensors"
+            }]
 
             window.addEventListener("load", function () {
-                getMachineData()
+                getMachineData(sensors)
                     .then(successCallback)
                     .catch(errorCallback);
             });
 
             setInterval(() => {
-                getMachineData()
+                getMachineData(sensors)
                     .then(successCallback)
                     .catch(errorCallback);
             }, 1000);
