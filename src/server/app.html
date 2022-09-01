@@ -14,10 +14,16 @@
         (function () {
             const successCallback = function (response) {
                 console.log(response);
-                document.getElementById('sensor-data').innerHTML = Object.keys(response).map(key => {
-                    return `${key}<br />${response[key]}<br />`;
+                var result = "";
+                Object.keys(response).map(key => {
+                    if (Array.isArray(response[key])) {
+                        result += `${key}<br />${response[key].join("<br />")}`;
+                    } else {
+                        result += `${key}<br />${response[key]}<br />`;
+                    }
                 });
-                return x;
+                document.getElementById('sensor-data').innerHTML = result; 
+                return response;
             }
 
             const errorCallback = function (error) {
