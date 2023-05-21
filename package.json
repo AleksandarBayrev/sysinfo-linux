@@ -4,7 +4,7 @@
   "description": "sysinfo-linux is an API/Web App that displays your current system info in realtime\"",
   "main": "build/sysinfo.js",
   "scripts": {
-    "build": "npm run clean && npm run --parallel   build:server && npm run build:frontend",
+    "build": "npm run clean && npm run build:server && npm run build:frontend",
     "clean": "shx rm -rf ./build && shx rm -rf ./dist",
     "build:server": "tsc -p tsconfig.server.json && webpack --config webpack.server.config.js && shx cp ./src/server/app.html ./dist",
     "build:frontend": "tsc -p tsconfig.frontend.json && webpack --config webpack.frontend.config.js"
