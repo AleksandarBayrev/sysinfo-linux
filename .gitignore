@@ -108,3 +108,4 @@ build/
 backend/bin/
 backend/obj/
 .vs
+buildresult/
