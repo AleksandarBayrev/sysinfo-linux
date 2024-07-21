@@ -17,14 +17,6 @@ export class App extends React.Component {
             element: this.pageRenderer.renderPage(RoutesConstants["/"])
         },
         {
-            path: RoutesConstants["/about"],
-            element: this.pageRenderer.renderPage(RoutesConstants["/about"])
-        },
-        {
-            path: RoutesConstants["/form"],
-            element: this.pageRenderer.renderPage(RoutesConstants["/form"])
-        },
-        {
             path: RoutesConstants["/404"],
             element: this.pageRenderer.renderPage(RoutesConstants["/404"])
         },

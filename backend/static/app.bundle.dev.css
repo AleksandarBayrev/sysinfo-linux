@@ -1,0 +1,62 @@
+/*!*********************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/App.css ***!
+  \*********************************************************************************************************/
+.app-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: block;
+}
+.app-logo-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: block;
+}
+
+.app-menu-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: block;
+}
+
+.app-page-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+}
+
+.app-logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.app-link-wrapper {
+    display: flex;
+}
+
+.app-page {
+    margin-left: auto;
+    margin-right: auto;
+}
+/*!*********************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/navigation/Link.css ***!
+  \*********************************************************************************************************************/
+.app-link-anchor:hover {
+    cursor: pointer;
+    font-style: italic;
+}
+.app-link-anchor-selected {
+    margin-left: auto;
+    margin-right: auto;
+    font-weight: bold;
+    text-decoration: underline;
+}
+.app-link-anchor {
+    margin-left: auto;
+    margin-right: auto;
+    text-decoration: underline;
+}

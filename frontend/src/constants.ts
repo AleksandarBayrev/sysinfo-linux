@@ -4,7 +4,5 @@ export enum MessageBusTopics {
 
 export enum Routes {
     "/" = "/",
-    "/about" = "/about",
-    "/form" = "/form",
     "/404" = "/404"
 }
