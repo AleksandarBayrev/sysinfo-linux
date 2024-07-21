@@ -1,9 +1,4 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Net.Http.Headers;
-using SysInfoLinux;
 using SysInfoLinux.Middlewares;
 using SysInfoLinux.Services;
 namespace SysInfoLinux
@@ -14,15 +9,11 @@ namespace SysInfoLinux
         {
 
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddSingleton<IFileCacher, FileCacher>();
             builder.Services.AddSingleton<RequestMiddleware>();
-            var commands = builder.Configuration.GetSection("Commands").Get<string[]>();
 
             var app = builder.Build();
             var fileCacher = app.Services.GetRequiredService<IFileCacher>();
@@ -37,7 +28,6 @@ namespace SysInfoLinux
             });
             app.UseMiddleware<RequestMiddleware>();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
