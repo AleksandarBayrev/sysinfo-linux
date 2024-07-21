@@ -2,7 +2,9 @@
 cd frontend/
 npm i
 npm run build:dev
+rm -rfv ../backend/static/*
 cp -r dist/static/* ../backend/static/
+cp -r ../favicon.png ../backend/static/
 cp dist/index.html ../backend/
 cd ../backend
 rm -rfv ../buildresult

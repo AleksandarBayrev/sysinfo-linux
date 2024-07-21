@@ -24,16 +24,43 @@ export class HomePage extends BasePage {
     async componentWillUnmount(): Promise<void> {
     }
 
+    private renderNotLoadedMessage() {
+        return this.appStore.loadingState.get() === LoadingState.NotLoaded ? "Preparing to load sensors" : "";
+    }
+
+    private renderLoadingMessage() {
+        return "Loading sensors, please wait..." ;
+    }
+
+    private renderCommandOutputs() {
+        return this.appStore.commandsResponse.filter(x => x.commandExists).map(x => {
+            return <div key={`${x.command}-wrapper`}>
+                <div key={`${x.command}-wrapper-field-command`}>Command: {x.command}</div>
+                <div key={`${x.command}-wrapper-field-response`}>Response: {x.response.split("\n").map((x, i) => <div key={`row-${i}`}>{x}</div>)}</div>
+            </div>
+        });
+    }
+
+    private renderError() {
+        return "Failed loading data, please contact an administrator.";
+    }
+
+    private renderStateData() {
+        switch (this.appStore.loadingState.get()) {
+            case LoadingState.Loading:
+                return this.renderLoadingMessage();
+            case LoadingState.Loaded:
+                return this.renderCommandOutputs();
+            case LoadingState.Error:
+                return this.renderError();
+            default:
+                return this.renderNotLoadedMessage();
+        }
+    }
     render(): React.ReactNode {
         return (
             <div className="app-page app-page-home">
-                <div key="message-not-loaded">{this.appStore.loadingState.get() === LoadingState.NotLoaded ? "Preparing to load sensors" : ""}</div>
-                <div key="message-state-data">{this.appStore.loadingState.get() === LoadingState.Loading ? "Loading sensors, please wait..." : this.appStore.loadingState.get() === LoadingState.Loaded ? this.appStore.commandsResponse.filter(x => x.commandExists).map(x => {
-                    return <div key={`${x.command}-wrapper`}>
-                        <div key={`${x.command}-wrapper-field-command`}>Command: {x.command}</div>
-                        <div key={`${x.command}-wrapper-field-response`}>Response: {x.response.split("\n").map((x, i) => <div key={`row-${i}`}>{x}</div>)}</div>
-                    </div>
-                }) : "Failed loading data, please contact an administrator."}</div>
+                <div key="message-app-data">{this.renderStateData()}</div>
             </div>
         )
     }
