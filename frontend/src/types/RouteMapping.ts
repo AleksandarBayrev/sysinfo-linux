@@ -1,0 +1,1 @@
+export type RouteMapping = {[route: string]: string}

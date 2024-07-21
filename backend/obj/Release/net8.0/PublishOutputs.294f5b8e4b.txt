@@ -1,0 +1,12 @@
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/backend
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/appsettings.Development.json
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/appsettings.json
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/backend.dll
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/backend.deps.json
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/backend.runtimeconfig.json
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/backend.pdb
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/Microsoft.AspNetCore.OpenApi.dll
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/Microsoft.OpenApi.dll
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/Swashbuckle.AspNetCore.Swagger.dll
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/aleksandar/GIT/sysinfo-linux/backend/bin/Release/net8.0/publish/Swashbuckle.AspNetCore.SwaggerUI.dll

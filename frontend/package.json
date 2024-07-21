@@ -1,0 +1,55 @@
+{
+  "name": "react-spa-template",
+  "version": "1.0.0",
+  "description": "React Single Page Application template with routing",
+  "main": "dist/app.bundle.js",
+  "scripts": {
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "clear:dist": "shx rm -rf ./dist",
+    "clear:build": "shx rm -rf ./build",
+    "build": "npm run clear:dist && webpack --mode=production --node-env=production && shx cp index.prod.html ./dist/index.html",
+    "build:dev": "npm run clear:dist && webpack --mode=development && shx cp index.dev.html ./dist/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AleksandarBayrev/react-spa-template.git"
+  },
+  "keywords": [
+    "react",
+    "spa",
+    "template"
+  ],
+  "author": "Aleksandar Bayrev <aleksandarbayrev@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/AleksandarBayrev/react-spa-template/issues"
+  },
+  "homepage": "https://github.com/AleksandarBayrev/react-spa-template#readme",
+  "devDependencies": {
+    "@types/jest": "^29.5.5",
+    "@types/node": "^18.18.0",
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
+    "@webpack-cli/generators": "^3.0.7",
+    "css-loader": "^6.8.1",
+    "http-server": "^14.1.1",
+    "mini-css-extract-plugin": "^2.7.6",
+    "postcss-loader": "^7.3.3",
+    "shx": "^0.3.4",
+    "ts-jest": "^29.1.1",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-obfuscator": "^3.5.1"
+  },
+  "dependencies": {
+    "history": "^5.3.0",
+    "mobx": "^6.10.2",
+    "mobx-react": "^9.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.25.1"
+  }
+}

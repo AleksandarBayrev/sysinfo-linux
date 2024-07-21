@@ -1,5 +1,4 @@
-# sysinfo-linux
+# syslinux-info
 
 ## How to run
-* `npm run build`
-* `node dist/sysinfo.js`
+* Run `build.sh` to build the project and open `syslinux-info` in the `dist` folder.
