@@ -1,6 +1,6 @@
 namespace SysInfoLinux
 {    
-    struct ApiResponse
+    public struct ApiResponse
     {
         public string Command { get;set; }
         public string Response { get; set; }
