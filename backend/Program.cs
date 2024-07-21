@@ -44,22 +44,6 @@ namespace SysInfoLinux
                 FileProvider = new PhysicalFileProvider(Path.Join(Directory.GetCurrentDirectory(), "static"))
             });
 
-            app.MapGet("/", async () =>
-            {
-                return new FileContentResult(await File.ReadAllBytesAsync(Path.Join(Directory.GetCurrentDirectory(), "index.html")), MediaTypeHeaderValue.Parse("text/html"));
-            });
-            app.MapGet("/commands", async () =>
-            {
-                var responses = new List<ApiResponse>();
-                foreach (var command in commands ?? Enumerable.Empty<string>())
-                {
-                    responses.Add(await Helpers.GetResponse(command));
-                }
-                return responses;
-            })
-            .WithName("Commands")
-            .WithOpenApi();
-
             app.Run();
         }
     }
