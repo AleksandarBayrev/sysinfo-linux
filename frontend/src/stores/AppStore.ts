@@ -47,7 +47,7 @@ export class AppStore implements IAppStore {
         });
         this.interval = setInterval(async () => {
             try {
-                const response = await fetch("http://localhost:5000/commands").then(x => x.json() as Promise<CommandResponse[]>);
+                const response = await fetch(`${window.location.origin}/commands`).then(x => x.json() as Promise<CommandResponse[]>);
                 runInAction(() => {
                     this.commandsResponse.replace(response);
                     this.loadingState.set(LoadingState.Loaded);
