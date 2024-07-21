@@ -105,6 +105,6 @@ dist
 
 # Custom
 build/
-backend/bin
-backend/obj
+backend/bin/
+backend/obj/
 .vs
