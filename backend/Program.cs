@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using SysInfoLinux;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    RequestPath = "/static",
+    FileProvider = new PhysicalFileProvider(Path.Join(Directory.GetCurrentDirectory(), "static"))
+});
+
+app.MapGet("/", async () =>
+{
+    return await File.ReadAllLinesAsync(Path.Join(Directory.GetCurrentDirectory(), "index.html"));
+});
 app.MapGet("/commands", async () =>
 {
     var responses = new List<ApiResponse>();
