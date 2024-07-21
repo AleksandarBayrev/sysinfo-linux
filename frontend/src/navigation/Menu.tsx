@@ -8,14 +8,6 @@ export class Menu extends React.Component {
             text: "Home",
             location: "/"
         },
-        {
-            text: "About",
-            location: "/about"
-        },
-        {
-            text: "Form",
-            location: "/form"
-        }
     ];
 
     render() {
