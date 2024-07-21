@@ -29,7 +29,7 @@ export class HomePage extends BasePage {
                 {this.appStore.commandsResponse.filter(x => x.commandExists).map(x => {
                     return <div key={`${x.command}-wrapper`}>
                         <div key={`${x.command}-wrapper-field-command`}>Command: {x.command}</div>
-                        <div key={`${x.command}-wrapper-field-response`}>Response: {x.response}</div>
+                        <div key={`${x.command}-wrapper-field-response`}>Response: {x.response.split("\n").map((x, i) => <div key={`row-${i}`}>{x}</div>)}</div>
                     </div>
                 })}
             </div>

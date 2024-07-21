@@ -39,7 +39,7 @@ export class AppStore implements IAppStore {
             return;
         }
         this.interval = setInterval(async () => {
-            const response = await fetch("http://localhost:5000/commands").then(x => x.json());
+            const response = await fetch("http://localhost:5000/commands").then(x => x.json() as Promise<CommandResponse[]>);
             runInAction(() => {
                 this.commandsResponse.replace(response);
             });
