@@ -1,7 +1,7 @@
 import { IObservableValue, observable, runInAction, IObservableArray } from "mobx";
 import { IAppStore, IBrowserHistoryManager } from "../interfaces";
 import { enhanceClass } from "../base";
-import { CommandResponse } from "../types";
+import { CommandResponse, LoadingState } from "../types";
 
 export class AppStore implements IAppStore {
     private readonly browserHistoryManager: IBrowserHistoryManager;
@@ -14,6 +14,9 @@ export class AppStore implements IAppStore {
 
     @observable
     commandsResponse: IObservableArray<CommandResponse>;
+
+    @observable
+    loadingState: IObservableValue<LoadingState>;
     //#endregion
 
     //#region Private properties
@@ -30,6 +33,7 @@ export class AppStore implements IAppStore {
         this.currentFullUrl = observable.box(url.toString());
         this.commandsResponse = observable.array();
         this.isReloading = observable.box(false);
+        this.loadingState = observable.box(LoadingState.NotLoaded);
         this.interval = null;
     }
 
@@ -38,11 +42,22 @@ export class AppStore implements IAppStore {
         if (this.isReloading.get() && this.interval) {
             return;
         }
+        runInAction(() => {
+            this.loadingState.set(LoadingState.Loading);
+        });
         this.interval = setInterval(async () => {
-            const response = await fetch("http://localhost:5000/commands").then(x => x.json() as Promise<CommandResponse[]>);
-            runInAction(() => {
-                this.commandsResponse.replace(response);
-            });
+            try {
+                const response = await fetch("http://localhost:5000/commands").then(x => x.json() as Promise<CommandResponse[]>);
+                runInAction(() => {
+                    this.commandsResponse.replace(response);
+                    this.loadingState.set(LoadingState.Loaded);
+                });
+            } catch (_) {
+                runInAction(() => {
+                    this.commandsResponse.replace([]);
+                    this.loadingState.set(LoadingState.Error);
+                });
+            }
         }, 1000);
         runInAction(() => {
             this.isReloading.set(true);
