@@ -1,45 +1,67 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Net.Http.Headers;
 using SysInfoLinux;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-var commands = builder.Configuration.GetSection("Commands").Get<string[]>();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using SysInfoLinux.Middlewares;
+using SysInfoLinux.Services;
+namespace SysInfoLinux
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseStaticFiles(new StaticFileOptions
-{
-    RequestPath = "/static",
-    FileProvider = new PhysicalFileProvider(Path.Join(Directory.GetCurrentDirectory(), "static"))
-});
-
-app.MapGet("/", async () =>
-{
-    return await File.ReadAllLinesAsync(Path.Join(Directory.GetCurrentDirectory(), "index.html"));
-});
-app.MapGet("/commands", async () =>
-{
-    var responses = new List<ApiResponse>();
-    foreach (var command in commands ?? Enumerable.Empty<string>())
+    public static class Program
     {
-        responses.Add(await Helpers.GetResponse(command));
-    }
-    return responses;
-})
-.WithName("Commands")
-.WithOpenApi();
+        public static void Main(string[] args)
+        {
 
-app.Run();
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddSingleton<IFileCacher, FileCacher>();
+            builder.Services.AddSingleton<RequestMiddleware>();
+            var commands = builder.Configuration.GetSection("Commands").Get<string[]>();
+
+            var app = builder.Build();
+            var fileCacher = app.Services.GetRequiredService<IFileCacher>();
+            fileCacher.Add(Constants.FRONTEND_HTML_KEY, File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(), app.Configuration.GetSection("HTMLRelativePath").Get<string>())));
+            fileCacher.Add(Constants.FAVICON_KEY, File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(), app.Configuration.GetSection("FaviconRelativePath").Get<string>())));
+
+            app.UseMiddleware<RequestMiddleware>();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = "/static",
+                FileProvider = new PhysicalFileProvider(Path.Join(Directory.GetCurrentDirectory(), "static"))
+            });
+
+            app.MapGet("/", async () =>
+            {
+                return new FileContentResult(await File.ReadAllBytesAsync(Path.Join(Directory.GetCurrentDirectory(), "index.html")), MediaTypeHeaderValue.Parse("text/html"));
+            });
+            app.MapGet("/commands", async () =>
+            {
+                var responses = new List<ApiResponse>();
+                foreach (var command in commands ?? Enumerable.Empty<string>())
+                {
+                    responses.Add(await Helpers.GetResponse(command));
+                }
+                return responses;
+            })
+            .WithName("Commands")
+            .WithOpenApi();
+
+            app.Run();
+        }
+    }
+
+}

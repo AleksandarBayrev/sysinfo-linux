@@ -5,4 +5,6 @@ npm run build
 cp -r dist/static/ ../backend/static/
 cp dist/index.html ../backend/
 cd ../backend
-dotnet publish --sc -c Release
+rm -rfv ../buildresult
+mkdir ../buildresult
+dotnet publish --sc -c Release -o ../buildresult
