@@ -29,6 +29,12 @@ namespace SysInfoLinux
             fileCacher.Add(Constants.FRONTEND_HTML_KEY, File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(), app.Configuration.GetSection("HTMLRelativePath").Get<string>())));
             fileCacher.Add(Constants.FAVICON_KEY, File.ReadAllBytes(Path.Combine(Directory.GetCurrentDirectory(), app.Configuration.GetSection("FaviconRelativePath").Get<string>())));
 
+            app.MapControllers();   
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = "/static",
+                FileProvider = new PhysicalFileProvider(Path.Join(Directory.GetCurrentDirectory(), "static"))
+            });
             app.UseMiddleware<RequestMiddleware>();
 
             // Configure the HTTP request pipeline.
@@ -37,12 +43,6 @@ namespace SysInfoLinux
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                RequestPath = "/static",
-                FileProvider = new PhysicalFileProvider(Path.Join(Directory.GetCurrentDirectory(), "static"))
-            });
 
             app.Run();
         }

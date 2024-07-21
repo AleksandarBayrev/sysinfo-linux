@@ -41,9 +41,12 @@ namespace SysInfoLinux.Controllers
         public async Task<IEnumerable<ApiResponse>> GetCommandResults()
         {            
             var responses = new List<ApiResponse>();
-            foreach (var command in _configuration.GetValue<string[]>("Commands") ?? Enumerable.Empty<string>())
+            foreach (var command in _configuration.GetSection("Commands").GetChildren().Select(x => x.Get<string>()) ?? Enumerable.Empty<string>())
             {
-                responses.Add(await Helpers.GetResponse(command));
+                if (command != null)
+                {
+                    responses.Add(await Helpers.GetResponse(command));
+                }
             }
             return responses;
         }
