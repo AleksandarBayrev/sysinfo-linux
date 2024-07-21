@@ -8,13 +8,16 @@ namespace SysInfoLinux.Controllers
     public class AppController
     {
         private readonly IFileCacher _fileCacher;
+        private readonly ICommandExecutor _commandExecutor;
         private readonly IConfiguration _configuration;
 
         public AppController(
             IFileCacher fileCacher,
+            ICommandExecutor commandExecutor,
             IConfiguration configuration)
         {
             _fileCacher = fileCacher;
+            _commandExecutor = commandExecutor;
             _configuration = configuration;
         }
 
@@ -38,17 +41,9 @@ namespace SysInfoLinux.Controllers
         }
 
         [HttpGet("/commands")]
-        public async Task<IEnumerable<ApiResponse>> GetCommandResults()
+        public Task<IEnumerable<ApiResponse>> GetCommandResults()
         {            
-            var responses = new List<ApiResponse>();
-            foreach (var command in _configuration.GetSection("Commands").GetChildren().Select(x => x.Get<string>()) ?? Enumerable.Empty<string>())
-            {
-                if (command != null)
-                {
-                    responses.Add(await Helpers.GetResponse(command));
-                }
-            }
-            return responses;
+            return Task.FromResult(_commandExecutor.Responses.Values.AsEnumerable());
         }
     }
 }

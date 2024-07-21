@@ -60,7 +60,7 @@ export class HomePage extends BasePage {
     render(): React.ReactNode {
         return (
             <div className="app-page app-page-home">
-                <div key="message-app-data">{this.renderStateData()}</div>
+                <div key="message-app-data">{this.renderStateData() }</div>
             </div>
         )
     }
